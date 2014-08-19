@@ -23,5 +23,9 @@
   "homepage": "https://github.com/1000ch/pngo-app",
   "dependencies": {
     "pngo": "^0.1.0"
+  },
+  "devDependencies": {
+    "component": "^0.19.9",
+    "component-builder": "^1.1.10"
   }
 }

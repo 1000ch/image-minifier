@@ -1,7 +1,7 @@
 {
   "name": "minify",
   "dependencies": {
-    "sindresorhus/each-async": "*"
+    "caolan/async": "*"
   },
   "scripts": ["index.js"]
 }
