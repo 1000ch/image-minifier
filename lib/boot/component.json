@@ -1,0 +1,14 @@
+{
+  "name": "boot",
+  "dependencies": {
+    "necolas/normalize.css": "*",
+    "suitcss/base": "*"
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "index.css"
+  ],
+  "local": ["minify"]
+}

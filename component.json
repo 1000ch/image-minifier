@@ -1,0 +1,12 @@
+{
+  "name": "pngo-app",
+  "paths": [
+    "lib"
+  ],
+  "local": [
+    "boot"
+  ],
+  "scripts": [
+    "index.js"
+  ]
+}

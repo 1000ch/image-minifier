@@ -1,0 +1,27 @@
+{
+  "name": "pngo-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "pngo as application for Mac OS X, Linux and Windows.",
+  "main": "main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/component install && ./node_modules/.bin/component build --standalone pngoApp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1000ch/pngo-app.git"
+  },
+  "author": {
+    "name": "1000ch",
+    "email": "shogo.sensui@gmail.com",
+    "web": "http://github.com/1000ch"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/1000ch/pngo-app/issues"
+  },
+  "homepage": "https://github.com/1000ch/pngo-app",
+  "dependencies": {
+    "pngo": "^0.1.0"
+  }
+}
