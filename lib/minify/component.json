@@ -1,7 +1,0 @@
-{
-  "name": "minify",
-  "dependencies": {
-    "caolan/async": "*"
-  },
-  "scripts": ["index.js"]
-}

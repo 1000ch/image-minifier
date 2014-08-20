@@ -3,12 +3,17 @@
   <head lang="en">
     <meta charset="UTF-8">
     <title>pngo-app</title>
+    <link rel="stylesheet" href="build/index.css">
     <script>
       window.node = window.require;
     </script>
   </head>
   <body>
-    <script src='build/build.js'></script>
-    <script>pngoApp();</script>
+    <div class="container">
+      <div id="js-drop-area" class="drop-area">
+        <p class="drop-area__text">Drag and drop PNG here...</p>
+      </div>
+    </div>
+    <script src='build/index.js'></script>
   </body>
 </html>
