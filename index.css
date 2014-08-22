@@ -12,9 +12,10 @@ html {
   bottom: 0;
   left: 0;
   padding: 20px;
+  background: #999;
 }
 
-.drop-area {
+.dashed-border {
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -24,12 +25,31 @@ html {
   border: 5px dashed #ccc;
 }
 
-.drop-area__text {
+.dashed-border.on-dragmove {
+  border: 5px dashed #aaa;
+}
+
+.dashed-border__text {
   flex-grow: 0;
   flex-shrink: 1;
   flex-basis: auto;
   align-self: center;
   font-size: 48px;
   font-weight: bold;
-  color: #eee;
+  color: #ccc;
+}
+
+.dashed-border__text.on-dragmove {
+  color: #aaa;
+}
+
+.loading {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: center;
+}
+
+.is-hidden {
+  display: none;
 }

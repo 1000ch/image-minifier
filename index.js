@@ -42,6 +42,19 @@ function minify(files, callback) {
 }
 
 var dropArea = document.querySelector('#js-drop-area');
+var dashedBorder = document.querySelector('.dashed-border');
+var dashedBorderText = document.querySelector('.dashed-border__text');
+var loading = document.querySelector('.loading');
+
+dropArea.addEventListener('dragenter', function (e) {
+  dashedBorder.classList.add('on-dragmove');
+  dashedBorderText.classList.add('on-dragmove');
+});
+
+dropArea.addEventListener('dragleave', function (e) {
+  dashedBorder.classList.remove('on-dragmove');
+  dashedBorderText.classList.remove('on-dragmove');
+});
 
 dropArea.addEventListener('dragover', function (e) {
 
@@ -57,12 +70,19 @@ dropArea.addEventListener('drop', function (e) {
   e.stopPropagation();
   e.preventDefault();
 
+  dashedBorderText.classList.add('is-hidden');
+  loading.classList.remove('is-hidden');
+  
   var files = e.dataTransfer.files || [];
 
   minify(files, function (error, results) {
     if (error) {
       throw error;
     }
+
+    dashedBorderText.classList.remove('is-hidden');
+    loading.classList.add('is-hidden');
+
     results.forEach(function (result) {
       console.log(
         result.path,

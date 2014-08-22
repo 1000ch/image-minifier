@@ -3,7 +3,7 @@ csso = ./node_modules/.bin/csso
 
 default: build
 
-app: node_modules
+app: node_modules bower_components
 	@$(MAKE) build
 	@atom .
 
