@@ -5,6 +5,8 @@ var path = node('path');
 var async = node('async');
 var filesize = node('filesize');
 var PNGO = node('pngo');
+var JPGO = node('jpgo');
+var execFile = require('child_process').execFile;
 
 function minify(files, callback) {
 
@@ -13,11 +15,12 @@ function minify(files, callback) {
   async.each(files, function (file, next) {
 
     fs.readFile(file.path, function (error, buffer) {
+
       if (error) {
         return next(error);
       }
-      var pngo = new PNGO(file.path);
-      pngo.optimize(function (e, data) {
+
+      var optimizeCallback = function (e, data) {
 
         if (e) {
           next(e);
@@ -30,7 +33,53 @@ function minify(files, callback) {
         });
 
         next();
-      });
+      };
+
+      // optimize
+      var extname = path.extname(file.path).toLowerCase();
+      if (extname === '.png') {
+
+        var pngo = new PNGO(file.path);
+        pngo.optimize(optimizeCallback);
+
+      } else if (extname === '.jpg' || extname === '.jpeg') {
+
+        var jpgo = new JPGO(file.path);
+        jpgo.optimize(optimizeCallback);
+
+      } else if (extname === '.svg') {
+
+        var before = fs.statSync(file.path);
+        var after = null;
+        var svgoPath = './node_modules/svgo/bin/svgo';
+        var args = [file.path, file.path];
+        execFile(svgoPath, args, function () {
+          after = fs.statSync(file.path);
+          array.push({
+            path: file.path,
+            original: before.size,
+            dest: after.size
+          });
+          next();
+        });
+
+      } else if (extname === '.gif') {
+
+        var before = fs.statSync(file.path);
+        var after = null;
+        var gifoPath = require('gifsicle').path;
+        var args = ['--optimize', '--output', file.path, file.path];
+        execFile(gifoPath, args, function () {
+          after = fs.statSync(file.path);
+          array.push({
+            path: file.path,
+            original: before.size,
+            dest: after.size
+          });
+          next();
+        });
+
+      }
     });
 
   }, function (error) {
@@ -50,7 +99,7 @@ var loading = document.querySelector('.loading');
 dropArea.addEventListener('dragenter', function (e) {
   dashedBorder.classList.add('on-dragmove');
   dashedBorderText.classList.add('on-dragmove');
-  dashedBorderText.textContent = 'Drag and drop PNG here...';
+  dashedBorderText.textContent = 'Drag and drop PNG, JPG, SVG here...';
 });
 
 dropArea.addEventListener('dragleave', function (e) {
