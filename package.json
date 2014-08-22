@@ -6,7 +6,7 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/1000ch/pngo-app.git"
+    "url": "https://github.com/1000ch/imgo-app.git"
   },
   "author": {
     "name": "1000ch",
@@ -15,9 +15,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1000ch/pngo-app/issues"
+    "url": "https://github.com/1000ch/imgo-app/issues"
   },
-  "homepage": "https://github.com/1000ch/pngo-app",
+  "homepage": "https://github.com/1000ch/imgo-app",
   "dependencies": {
     "async": "^0.9.0",
     "filesize": "^2.0.3",
