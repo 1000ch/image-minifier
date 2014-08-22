@@ -1,1 +1,1 @@
-# pngo-app
+# imgo-app
