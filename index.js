@@ -1,8 +1,9 @@
 'use strict';
 
-var async = node('async');
 var fs = node('fs');
 var path = node('path');
+var async = node('async');
+var filesize = node('filesize');
 var PNGO = node('pngo');
 
 function minify(files, callback) {
@@ -49,6 +50,7 @@ var loading = document.querySelector('.loading');
 dropArea.addEventListener('dragenter', function (e) {
   dashedBorder.classList.add('on-dragmove');
   dashedBorderText.classList.add('on-dragmove');
+  dashedBorderText.textContent = 'Drag and drop PNG here...';
 });
 
 dropArea.addEventListener('dragleave', function (e) {
@@ -80,15 +82,16 @@ dropArea.addEventListener('drop', function (e) {
       throw error;
     }
 
-    dashedBorderText.classList.remove('is-hidden');
-    loading.classList.add('is-hidden');
+    var beforeTotal = 0;
+    var afterTotal = 0;
 
     results.forEach(function (result) {
-      console.log(
-        result.path,
-        'before:' + result.original,
-        'after:' + result.dest
-      );
+      beforeTotal += result.original - 0;
+      afterTotal += result.dest - 0;
     });
+
+    dashedBorderText.classList.remove('is-hidden');
+    dashedBorderText.textContent = filesize(beforeTotal - afterTotal) + ' is reduced!';
+    loading.classList.add('is-hidden');
   });
 });
