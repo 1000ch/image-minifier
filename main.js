@@ -14,7 +14,7 @@ app.on('window-all-closed', function () {
 
 app.on('will-finish-launching', function () {
   crashReporter.start({
-    productName: 'pngo-app'
+    productName: 'imgo-app'
   });
 });
 
