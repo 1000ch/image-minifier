@@ -6,7 +6,7 @@ var async = node('async');
 var filesize = node('filesize');
 var PNGO = node('pngo');
 var JPGO = node('jpgo');
-var execFile = require('child_process').execFile;
+var execFile = node('child_process').execFile;
 
 function minify(files, callback) {
 

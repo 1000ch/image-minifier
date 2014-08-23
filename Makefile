@@ -10,17 +10,17 @@ app: bower_components
 
 build: node_modules index.html
 	@mkdir -p build
-	@$(MAKE) build/index.min.js
-	@$(MAKE) build/index.min.css
+	@$(MAKE) build/index.js
+	@$(MAKE) build/index.css
 
-build/index.min.js: node_modules index.js
+build/index.js: node_modules index.js
 	@echo ""
 	@echo ">>> resolve JavaScript dependencies with duo"
 	$(duo) index.js > build/index.js
 	@echo ">>> minify JavaScript with uglify"
-	$(uglify) --output build/index.js build/index.js
+	#$(uglify) --output build/index.js build/index.js
 
-build/index.min.css: node_modules index.css
+build/index.css: node_modules index.css
 	@echo ""
 	@echo ">>> resolve CSS dependencies with duo"
 	$(duo) index.css > build/index.css
