@@ -1,12 +1,9 @@
 'use strict';
 
 var fs = node('fs');
-var path = node('path');
 var async = node('async');
 var filesize = node('filesize');
-var PNGO = node('pngo');
-var JPGO = node('jpgo');
-var execFile = node('child_process').execFile;
+var IMGO = node('imgo');
 
 function minify(files, callback) {
 
@@ -19,67 +16,21 @@ function minify(files, callback) {
       if (error) {
         return next(error);
       }
-
-      var optimizeCallback = function (e, data) {
-
+      
+      new IMGO(file.path).optimize(function (e, data) {
+        
         if (e) {
           next(e);
         }
 
         array.push({
           path: file.path,
-          original: data.before.size,
-          dest: data.after.size
+          beforeSize: data.beforeSize,
+          afterSize: data.afterSize
         });
 
         next();
-      };
-
-      // optimize
-      var extname = path.extname(file.path).toLowerCase();
-      if (extname === '.png') {
-
-        var pngo = new PNGO(file.path);
-        pngo.optimize(optimizeCallback);
-
-      } else if (extname === '.jpg' || extname === '.jpeg') {
-
-        var jpgo = new JPGO(file.path);
-        jpgo.optimize(optimizeCallback);
-
-      } else if (extname === '.svg') {
-
-        var before = fs.statSync(file.path);
-        var after = null;
-        var svgoPath = './node_modules/svgo/bin/svgo';
-        var args = [file.path, file.path];
-        execFile(svgoPath, args, function () {
-          after = fs.statSync(file.path);
-          array.push({
-            path: file.path,
-            original: before.size,
-            dest: after.size
-          });
-          next();
-        });
-
-      } else if (extname === '.gif') {
-
-        var before = fs.statSync(file.path);
-        var after = null;
-        var gifoPath = require('gifsicle').path;
-        var args = ['--optimize', '--output', file.path, file.path];
-        execFile(gifoPath, args, function () {
-          after = fs.statSync(file.path);
-          array.push({
-            path: file.path,
-            original: before.size,
-            dest: after.size
-          });
-          next();
-        });
-
-      }
+      });
     });
 
   }, function (error) {
@@ -87,6 +38,7 @@ function minify(files, callback) {
     if (error) {
       callback(error);
     }
+
     callback(null, array);
   });
 }
@@ -127,6 +79,7 @@ dropArea.addEventListener('drop', function (e) {
   var files = e.dataTransfer.files || [];
 
   minify(files, function (error, results) {
+
     if (error) {
       throw error;
     }
@@ -135,8 +88,8 @@ dropArea.addEventListener('drop', function (e) {
     var afterTotal = 0;
 
     results.forEach(function (result) {
-      beforeTotal += result.original - 0;
-      afterTotal += result.dest - 0;
+      beforeTotal += result.beforeSize - 0;
+      afterTotal += result.afterSize - 0;
     });
 
     dashedBorderText.classList.remove('is-hidden');
