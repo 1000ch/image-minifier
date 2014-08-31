@@ -8,6 +8,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "loading": "jxnblk/loading"
+    "loading": "jxnblk/loading",
+    "font-awesome": "~4.2.0",
+    "normalize.css": "~3.0.1"
   }
 }
