@@ -3,8 +3,8 @@
   <head lang="en">
     <meta charset="UTF-8">
     <title>imgo-app</title>
-    <link rel="stylesheet" href="build/css/lib.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="build/css/lib.min.css">
+    <link rel="stylesheet" href="build/css/app.min.css">
     <script>
       window.node = window.require;
     </script>
@@ -181,7 +181,7 @@
           <p class="dashed-border__text">Drag and drop PNG, JPG, GIF, SVG here<br>
           or<br>
           <button>Select images</button></p>
-          <img class="loading is-hidden" src="bower_components/loading/loading-spokes.svg" width="100px" height="100px">
+          <img class="loading is-hidden" src="build/loading/loading-spokes.svg" width="100px" height="100px">
         </div>
       </div>
     </div>
@@ -192,6 +192,7 @@
       </div>
     </div>
 
-    <script src="build/js/index.js"></script>
+    <script src="build/js/lib.min.js"></script>
+    <script src="build/js/app.min.js"></script>
   </body>
 </html>

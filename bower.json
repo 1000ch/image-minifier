@@ -10,6 +10,7 @@
   "dependencies": {
     "loading": "jxnblk/loading",
     "font-awesome": "~4.2.0",
-    "normalize.css": "~3.0.1"
+    "normalize.css": "~3.0.1",
+    "jquery": "~2.1.1"
   }
 }
