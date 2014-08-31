@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "description": "Image optimizer GUI application for Mac OS X, Linux and Windows.",
   "main": "main.js",
+  "scripts": {
+    "build": "grunt build"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/1000ch/imgo-app.git"
