@@ -1,6 +1,6 @@
 uglify = ./node_modules/.bin/uglifyjs
 csso = ./node_modules/.bin/csso
-duo = ./node_modules/.bin/duo
+# duo = ./node_modules/.bin/duo
 
 default: build
 
@@ -10,22 +10,35 @@ app: bower_components
 
 build: node_modules index.html
 	@mkdir -p build
-	@$(MAKE) build/index.js
-	@$(MAKE) build/index.css
+	@mkdir -p build/css build/js
+	@$(MAKE) build/js/index.js
+	@$(MAKE) build/css/lib.css
+	@$(MAKE) build/css/index.css
+	@$(MAKE) build/fonts
 
-build/index.js: node_modules index.js
+build/js/index.js: node_modules index.js
 	@echo ""
 	@echo ">>> resolve JavaScript dependencies with duo"
-	$(duo) index.js > build/index.js
+	cat index.js > build/js/index.js
 	@echo ">>> minify JavaScript with uglify"
-	#$(uglify) --output build/index.js build/index.js
+	#$(uglify) --output build/js/index.js build/js/index.js
 
-build/index.css: node_modules index.css
+build/css/lib.css: node_modules bower_components
 	@echo ""
 	@echo ">>> resolve CSS dependencies with duo"
-	$(duo) index.css > build/index.css
+	cat bower_components/normalize.css/normalize.css bower_components/font-awesome/css/font-awesome.css > build/css/lib.css
 	@echo ">>> minify CSS with CSSO"
-	$(csso) --output build/index.css build/index.css
+	#$(csso) --output build/css/lib.css build/css/lib.css
+
+build/css/index.css: node_modules index.css
+	@echo ""
+	@echo ">>> resolve CSS dependencies with duo"
+	cat index.css > build/css/index.css
+	@echo ">>> minify CSS with CSSO"
+	#$(csso) --output build/css/index.css build/css/index.css
+
+build/fonts: bower_components/font-awesome/fonts
+	cp -r bower_components/font-awesome/fonts build
 
 node_modules: package.json
 	@echo ""
