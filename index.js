@@ -51,7 +51,7 @@ var loading = document.querySelector('.loading');
 dropArea.addEventListener('dragenter', function (e) {
   dashedBorder.classList.add('on-dragmove');
   dashedBorderText.classList.add('on-dragmove');
-  dashedBorderText.textContent = 'Drag and drop PNG, JPG, SVG here...';
+  dashedBorderText.textContent = 'Drag and drop PNG, JPG, GIF, SVG here...';
 });
 
 dropArea.addEventListener('dragleave', function (e) {
