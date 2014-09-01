@@ -1,8 +1,8 @@
 {
-  "name": "pngo-app",
+  "name": "imgo-app",
   "main": "main.js",
   "version": "0.0.0",
-  "homepage": "https://github.com/1000ch/pngo-app",
+  "homepage": "https://github.com/1000ch/imgo-app",
   "authors": [
     "1000ch <shogo.sensui@gmail.com>"
   ],
@@ -11,6 +11,7 @@
     "loading": "jxnblk/loading",
     "font-awesome": "~4.2.0",
     "normalize.css": "~3.0.1",
-    "jquery": "~2.1.1"
+    "mustache": "~0.8.2",
+    "underscore": "~1.7.0"
   }
 }

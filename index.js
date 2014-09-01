@@ -43,57 +43,88 @@ function minify(files, callback) {
   });
 }
 
-var dropArea = document.querySelector('#js-drop-area');
-var dashedBorder = document.querySelector('.dashed-border');
-var dashedBorderText = document.querySelector('.dashed-border__text');
-var loading = document.querySelector('.loading');
+document.addEventListener('DOMContentLoaded', function () {
 
-dropArea.addEventListener('dragenter', function (e) {
-  dashedBorder.classList.add('on-dragmove');
-  dashedBorderText.classList.add('on-dragmove');
-  dashedBorderText.textContent = 'Drag and drop PNG, JPG, GIF, SVG here...';
-});
+  var processingMap = {};
 
-dropArea.addEventListener('dragleave', function (e) {
-  dashedBorder.classList.remove('on-dragmove');
-  dashedBorderText.classList.remove('on-dragmove');
-});
+  var dropArea = document.querySelector('#js-drop-area');
+  var dashedBorder = document.querySelector('.dashed-border');
+  var dashedBorderText = document.querySelector('.dashed-border__text');
+  var resultList = document.querySelector('#js-result-list');
+  var resultItemTemplate = document.querySelector('#tmpl-result');
 
-dropArea.addEventListener('dragover', function (e) {
+  dropArea.addEventListener('dragenter', function (e) {
+    dashedBorder.classList.add('on-dragmove');
+    dashedBorderText.classList.add('on-dragmove');
+  });
 
-  // "default" prevents drop
-  e.stopPropagation();
-  e.preventDefault();
+  dropArea.addEventListener('dragleave', function (e) {
+    dashedBorder.classList.remove('on-dragmove');
+    dashedBorderText.classList.remove('on-dragmove');
+  });
 
-});
+  dropArea.addEventListener('dragover', function (e) {
+    // "default" prevents drop
+    e.stopPropagation();
+    e.preventDefault();
+  });
 
-dropArea.addEventListener('drop', function (e) {
+  dropArea.addEventListener('drop', function (e) {
 
-  // stop propagation for browser redirecting
-  e.stopPropagation();
-  e.preventDefault();
+    // stop propagation for browser redirecting
+    e.stopPropagation();
+    e.preventDefault();
 
-  dashedBorderText.classList.add('is-hidden');
-  loading.classList.remove('is-hidden');
-  
-  var files = e.dataTransfer.files || [];
+    var files = e.dataTransfer.files || [];
 
-  minify(files, function (error, results) {
-
-    if (error) {
-      throw error;
-    }
-
-    var beforeTotal = 0;
-    var afterTotal = 0;
-
-    results.forEach(function (result) {
-      beforeTotal += result.beforeSize - 0;
-      afterTotal += result.afterSize - 0;
+    _.each(files, function (file) {
+      processingMap[file.path] = {
+        id: 'js-result-item-' + file.path,
+        name: file.name,
+        path: file.path,
+        beforeSize: file.size,
+        afterSize: '',
+        type: file.type
+      };
     });
 
-    dashedBorderText.classList.remove('is-hidden');
-    dashedBorderText.textContent = filesize(beforeTotal - afterTotal) + ' is reduced!';
-    loading.classList.add('is-hidden');
+    // TODO bulk
+    var html = '';
+    _.each(processingMap, function (processingData) {
+      html += Mustache.render(resultItemTemplate.innerHTML, processingData);
+    });
+    resultList.innerHTML = html;
+    
+    minify(files, function (error, results) {
+
+      if (error) {
+        throw error;
+      }
+      
+      _.each(results, function (result) {
+        var processingData = processingMap[result.path];
+        
+        // set optimized file size
+        processingData.afterSize = result.afterSize;
+        
+        var tr = document.getElementById(processingData.id);
+
+        var after = tr.querySelector('.js-after-size');
+        after.textContent = processingData.afterSize;
+
+        var saving = tr.querySelector('.js-saving-percent');
+        saving.textContent = ((processingData.beforeSize - processingData.afterSize) / processingData.beforeSize) * 100;
+
+        var icon = tr.querySelector('.fa');
+        icon.classList.remove('fa-spinner');
+        icon.classList.remove('fa-spin');
+        if (processingData.beforeSize === processingData.afterSize) {
+          icon.classList.add('fa-times-circle');
+        } else {
+          icon.classList.add('fa-check');
+        }
+        console.log(processingData);
+      });
+    });
   });
 });
