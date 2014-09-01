@@ -14,7 +14,8 @@ module.exports = function (grunt) {
       },
       jslib: {
         src: [
-          'bower_components/jquery/dist/jquery.js'
+          'bower_components/underscore/underscore.js',
+          'bower_components/mustache/mustache.js'
         ],
         dest: 'build/js/lib.js'
       },
@@ -76,11 +77,11 @@ module.exports = function (grunt) {
     watch: {
       cssapp: {
         files: ['*.css'],
-        tasks: ['build:css']
+        tasks: ['build:css:app']
       },
       jsapp: {
         files: ['*.js'],
-        tasks: ['build:js']
+        tasks: ['build:js:app']
       }
     }
   });
@@ -100,4 +101,5 @@ module.exports = function (grunt) {
   grunt.registerTask('build:js:app', ['concat:jsapp', 'uglify:jsapp']);
   grunt.registerTask('build:js', ['build:js:lib', 'build:js:app']);
   grunt.registerTask('build', ['clean:build', 'build:font', 'build:css', 'build:js']);
+  grunt.registerTask('default', ['watch']);
 };
