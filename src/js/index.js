@@ -1,13 +1,12 @@
+//@depend lib/generate-id.js
+//@depend lib/minify-image.js
+
 'use strict';
 
-var fs = node('fs');
-var async = node('async');
 var filesize = node('filesize');
-var IMGO = node('imgo');
-
 var itemMap = {};  
 
-document.addEventListener('DOMContentLoaded', function () {
+$(function () {
 
   var $dropArea = $('#js-drop-area');
   var $dashedBorder = $('.dashed-border');
@@ -42,11 +41,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     _.each(files, function (file) {
       itemMap[file.path] = {
-        id: itemId(),
+        id: generateId(),
         name: file.name,
         path: file.path,
         beforeSize: file.size,
-        afterSize: '',
+        afterSize: 0,
+        before: filesize(file.size),
+        after: '',
         type: file.type
       };
     });
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     $resultList.html(html);
     
-    minify(files, function (error, results) {
+    minifyImage(files, function (error, results) {
 
       if (error) {
         throw error;
@@ -70,9 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
         item.afterSize = result.afterSize;
 
         // update row
-        var $tr = $(document.getElementById(item.id));
-        $tr.find('.js-after-size').text(item.afterSize);
-        $tr.find('.js-saving-percent').text(((item.beforeSize - item.afterSize) / item.beforeSize) * 100);
+        var $tr = $('#' + item.id);
+        var afterFileSize = filesize(item.afterSize);
+        var savingPercent = (item.beforeSize - item.afterSize) / item.beforeSize;
+        savingPercent = Math.floor(100 * savingPercent) / 100;
+        savingPercent = savingPercent || 0.0;
+        $tr.find('.js-after-size').text(afterFileSize);
+        $tr.find('.js-saving-percent').text(savingPercent);
 
         var $icon = $tr.find('.fa');
         $icon.removeClass('fa-spinner');
@@ -84,38 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
           $icon.addClass('fa-check');
         }
       });
+
+      itemMap = {};
     });
   });
 });
-
-var uniqueSelectorCount = 0;
-function itemId() {
-  return 'imgo' + uniqueSelectorCount++;
-}
-
-function minify(files, callback) {
-  var array = [];
-  async.each(files, function (file, next) {
-    fs.readFile(file.path, function (error, buffer) {
-      if (error) {
-        return next(error);
-      }
-      new IMGO(file.path).optimize(function (e, data) {
-        if (e) {
-          next(e);
-        }
-        array.push({
-          path: file.path,
-          beforeSize: data.beforeSize,
-          afterSize: data.afterSize
-        });
-        next();
-      });
-    });
-  }, function (error) {
-    if (error) {
-      callback(error);
-    }
-    callback(null, array);
-  });
-}
