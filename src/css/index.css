@@ -1,0 +1,127 @@
+html {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  height: 100%;
+  color: rgba(0,0,0,.4);
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+body {
+  height: 100%;
+  background: #f4ffe8;
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f4ffe8), color-stop(40%,#e0f9e3), color-stop(100%,#add9e4));
+  background: -webkit-radial-gradient(center, ellipse cover,  #f4ffe8 0%,#e0f9e3 40%,#add9e4 100%);
+  background: radial-gradient(ellipse at center,  #f4ffe8 0%,#e0f9e3 40%,#add9e4 100%);
+  font-size: 14px;
+}
+
+.l-container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 47px;
+}
+
+.l-results {
+  overflow: auto;
+  flex: 1;
+}
+.l-description {
+  display: flex;
+  width: 200px;
+  padding: 5px 5px 0;
+}
+.l-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+}
+
+.dashed-border {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: 10px;
+  border: 3px dashed rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+.dashed-border__text {
+  flex: 1;
+  line-height: 1.5;
+  text-align: center;
+}
+.dashed-border__text.on-dragmove {
+  color: rgba(0,0,0,.1);
+}
+
+.loading {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: center;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.results {
+  width: 100%;
+  font-size: 14px;
+}
+.results th {
+  font-weight: normal;
+  padding: 7px 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.results td {
+  padding: 7px 10px;
+  /*background-color: rgba(0, 0, 0, 0.03);*/
+}
+
+.toolbar {
+  display: table;
+  width: 100%;
+  height: 37px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.toolbar__left {
+  display: table-cell;
+  padding: 10px;
+}
+.toolbar__right {
+  display: table-cell;
+  padding: 10px;
+  text-align: right;
+}
+
+.unit {
+  margin-left: 0.3em;
+  font-size: 0.8em;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.status {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+}
+.status__icon {
+  margin-right: 0.5em;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 14px;
+}
+.total__num {
+  font-weight: bold;
+}

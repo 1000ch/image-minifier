@@ -3,18 +3,211 @@
   <head lang="en">
     <meta charset="UTF-8">
     <title>imgo-app</title>
-    <link rel="stylesheet" href="build/index.css">
+    <link rel="stylesheet" href="build/css/lib.min.css">
+    <link rel="stylesheet" href="build/css/app.min.css">
     <script>
       window.node = window.require;
     </script>
   </head>
   <body>
-    <div id="js-drop-area" class="container">
-      <div class="dashed-border">
-        <p class="dashed-border__text">Drag and drop PNG, JPG, GIF, SVG here...</p>
-        <img class="loading is-hidden" src="bower_components/loading/loading-spokes.svg" width="100px" height="100px">
+    <div id="js-drop-area" class="l-container">
+      <div class="l-results">
+        <table class="results">
+          <thead>
+            <tr>
+              <th>file</th>
+              <th>before<span class="unit">KB</span></th>
+              <th>after<span class="unit">KB</span></th>
+              <th>down<span class="unit">%</span></th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody id="js-result-list">
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-times-circle"></i></td>
+            </tr>
+            <tr>
+              <td>hoge.png</td>
+              <td>10.5</td>
+              <td>7.0</td>
+              <td>30</td>
+              <td><i class="fa fa-spinner fa-spin"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="l-description">
+        <div class="dashed-border">
+          <p class="dashed-border__text">Drag and drop PNG, JPG, GIF, SVG here<br>
+          or<br>
+          <button>Select images</button></p>
+        </div>
       </div>
     </div>
-    <script src='build/index.js'></script>
+
+    <div class="l-toolbar">
+      <div class="toolbar">
+        <div class="toolbar__left status"><i class="fa fa-spinner fa-spin status__icon"></i>Now optimizing...</div>
+        <div class="toolbar__right total"><span class="total__num">-10.5</span><span class="unit">KB</span></div>
+      </div>
+    </div>
+
+    <template id="tmpl-result">
+      <tr id="{{ id }}">
+        <td>{{ name }}</td>
+        <td class="js-before-size">{{ beforeSize }}</td>
+        <td class="js-after-size">{{ afterSize }}</td>
+        <td class="js-saving-percent">{{ savingPercent }}</td>
+        <td><i class="fa fa-spinner fa-spin"></i></td>
+      </tr>
+    </template>
+
+    <script src="build/js/lib.min.js"></script>
+    <script>window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');</script>
+    <script src="build/js/app.min.js"></script>
   </body>
 </html>
