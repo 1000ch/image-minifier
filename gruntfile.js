@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         dest: 'build/css/lib.css'
       },
       cssapp: {
-        src: ['index.css'],
+        src: ['src/css/index.css'],
         dest: 'build/css/app.css'
       },
       jslib: {
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         dest: 'build/js/lib.js'
       },
       jsapp: {
-        src: ['index.js'],
+        src: ['src/js/index.js'],
         dest: 'build/js/app.js'
       }
     },
