@@ -3,49 +3,12 @@
 var fs = node('fs');
 var async = node('async');
 var filesize = node('filesize');
+var uuid = node('uuid');
 var IMGO = node('imgo');
 
-function minify(files, callback) {
-
-  var array = [];
-
-  async.each(files, function (file, next) {
-
-    fs.readFile(file.path, function (error, buffer) {
-
-      if (error) {
-        return next(error);
-      }
-      
-      new IMGO(file.path).optimize(function (e, data) {
-        
-        if (e) {
-          next(e);
-        }
-
-        array.push({
-          path: file.path,
-          beforeSize: data.beforeSize,
-          afterSize: data.afterSize
-        });
-
-        next();
-      });
-    });
-
-  }, function (error) {
-
-    if (error) {
-      callback(error);
-    }
-
-    callback(null, array);
-  });
-}
+var itemMap = {};
 
 document.addEventListener('DOMContentLoaded', function () {
-
-  var processingMap = {};
 
   var dropArea = document.querySelector('#js-drop-area');
   var dashedBorder = document.querySelector('.dashed-border');
@@ -75,11 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
     e.stopPropagation();
     e.preventDefault();
 
+    // get dropping files
     var files = e.dataTransfer.files || [];
 
     _.each(files, function (file) {
-      processingMap[file.path] = {
-        id: 'js-result-item-' + file.path,
+      itemMap[file.path] = {
+        id: uuid.v1(),
         name: file.name,
         path: file.path,
         beforeSize: file.size,
@@ -88,10 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
       };
     });
 
-    // TODO bulk
     var html = '';
-    _.each(processingMap, function (processingData) {
-      html += Mustache.render(resultItemTemplate.innerHTML, processingData);
+    _.each(itemMap, function (item) {
+      html += Mustache.render(resultItemTemplate.innerHTML, item);
     });
     resultList.innerHTML = html;
     
@@ -102,29 +65,53 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       
       _.each(results, function (result) {
-        var processingData = processingMap[result.path];
+        var item = itemMap[result.path];
         
         // set optimized file size
-        processingData.afterSize = result.afterSize;
-        
-        var tr = document.getElementById(processingData.id);
+        item.afterSize = result.afterSize;
 
-        var after = tr.querySelector('.js-after-size');
-        after.textContent = processingData.afterSize;
-
-        var saving = tr.querySelector('.js-saving-percent');
-        saving.textContent = ((processingData.beforeSize - processingData.afterSize) / processingData.beforeSize) * 100;
-
-        var icon = tr.querySelector('.fa');
-        icon.classList.remove('fa-spinner');
-        icon.classList.remove('fa-spin');
-        if (processingData.beforeSize === processingData.afterSize) {
-          icon.classList.add('fa-times-circle');
-        } else {
-          icon.classList.add('fa-check');
+        // update row
+        {
+          var tr = document.getElementById(item.id);
+          tr.querySelector('.js-after-size').textContent = item.afterSize;
+          tr.querySelector('.js-saving-percent').textContent = ((item.beforeSize - item.afterSize) / item.beforeSize) * 100;
+          var icon = tr.querySelector('.fa');
+          icon.classList.remove('fa-spinner');
+          icon.classList.remove('fa-spin');
+          if (item.beforeSize === item.afterSize) {
+            icon.classList.add('fa-times-circle');
+          } else {
+            icon.classList.add('fa-check');
+          }
         }
-        console.log(processingData);
       });
     });
   });
 });
+
+function minify(files, callback) {
+  var array = [];
+  async.each(files, function (file, next) {
+    fs.readFile(file.path, function (error, buffer) {
+      if (error) {
+        return next(error);
+      }
+      new IMGO(file.path).optimize(function (e, data) {
+        if (e) {
+          next(e);
+        }
+        array.push({
+          path: file.path,
+          beforeSize: data.beforeSize,
+          afterSize: data.afterSize
+        });
+        next();
+      });
+    });
+  }, function (error) {
+    if (error) {
+      callback(error);
+    }
+    callback(null, array);
+  });
+}
