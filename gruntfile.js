@@ -76,11 +76,11 @@ module.exports = function (grunt) {
     },
     watch: {
       cssapp: {
-        files: ['*.css'],
+        files: ['src/css/*.css'],
         tasks: ['build:css:app']
       },
       jsapp: {
-        files: ['*.js'],
+        files: ['src/js/*.js'],
         tasks: ['build:js:app']
       }
     }
