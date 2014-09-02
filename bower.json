@@ -12,6 +12,7 @@
     "font-awesome": "~4.2.0",
     "normalize.css": "~3.0.1",
     "mustache": "~0.8.2",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "jquery": "~2.1.1"
   }
 }

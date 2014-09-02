@@ -5,40 +5,40 @@ var async = node('async');
 var filesize = node('filesize');
 var IMGO = node('imgo');
 
-var itemMap = {};
+var itemMap = {};  
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  var dropArea = document.querySelector('#js-drop-area');
-  var dashedBorder = document.querySelector('.dashed-border');
-  var dashedBorderText = document.querySelector('.dashed-border__text');
-  var resultList = document.querySelector('#js-result-list');
-  var resultItemTemplate = document.querySelector('#tmpl-result');
+  var $dropArea = $('#js-drop-area');
+  var $dashedBorder = $('.dashed-border');
+  var $dashedBorderText = $('.dashed-border__text');
+  var $resultList = $('#js-result-list');
+  var $resultItemTemplate = $('#tmpl-result');
 
-  dropArea.addEventListener('dragenter', function (e) {
-    dashedBorder.classList.add('on-dragmove');
-    dashedBorderText.classList.add('on-dragmove');
+  $dropArea.on('dragenter', function (e) {
+    $dashedBorder.addClass('on-dragmove');
+    $dashedBorderText.addClass('on-dragmove');
   });
 
-  dropArea.addEventListener('dragleave', function (e) {
-    dashedBorder.classList.remove('on-dragmove');
-    dashedBorderText.classList.remove('on-dragmove');
+  $dropArea.on('dragleave', function (e) {
+    $dashedBorder.removeClass('on-dragmove');
+    $dashedBorderText.removeClass('on-dragmove');
   });
 
-  dropArea.addEventListener('dragover', function (e) {
+  $dropArea.on('dragover', function (e) {
     // "default" prevents drop
     e.stopPropagation();
     e.preventDefault();
   });
 
-  dropArea.addEventListener('drop', function (e) {
+  $dropArea.on('drop', function (e) {
 
     // stop propagation for browser redirecting
     e.stopPropagation();
     e.preventDefault();
 
     // get dropping files
-    var files = e.dataTransfer.files || [];
+    var files = e.originalEvent.dataTransfer.files || [];
 
     _.each(files, function (file) {
       itemMap[file.path] = {
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var html = '';
     _.each(itemMap, function (item) {
-      html += Mustache.render(resultItemTemplate.innerHTML, item);
+      html += Mustache.render($resultItemTemplate.html(), item);
     });
-    resultList.innerHTML = html;
+    $resultList.html(html);
     
     minify(files, function (error, results) {
 

@@ -14,9 +14,9 @@ module.exports = function (grunt) {
       },
       jslib: {
         src: [
+          'bower_components/jquery/dist/jquery.js',
           'bower_components/underscore/underscore.js',
-          'bower_components/mustache/mustache.js',
-          'src/js/coral.js'
+          'bower_components/mustache/mustache.js'
         ],
         dest: 'build/js/lib.js'
       },
