@@ -49,23 +49,27 @@
   Coral.prototype.find = function (selector) {
 
     var method = 'querySelectorAll';
+    var query = selector;
     var m = CONCISE_SELECTOR_FIILTER.exec(selector);
     if (m) {
       if (m[1]) {
         //if selector is "#id"
         method = 'querySelector';
+        query = selector;
       } else if (m[2]) {
         //if selector is "tagName"
         method = 'getElementsByTagName';
+        query = selector;
       } else if (m[3]) {
         //if selector is ".className"
         method = 'getElementsByClassName';
+        query = selector;
       }
     }
 
     var found = [];
-    this.each(function () {
-      var elements = this[method](selector);
+    this.each(function (element) {
+      var elements = element[method](query);
       if (elements.length !== undefined) {
         push.apply(found, elements);
       } else {
@@ -74,6 +78,54 @@
     });
 
     return new $(found);
+  };
+
+  Coral.prototype.html = function (value) {
+    if (value) {
+      this.each(function (element) {
+        element.innerHTML = value;
+      });
+      return this;
+    } else {
+      var first = this.first();
+      if (first) {
+        return first.innerHTML;
+      } else {
+        return null;
+      }
+    }
+  };
+
+  Coral.prototype.text = function (value) {
+    if (value) {
+      this.each(function (element) {
+        element.textContent = value;
+      });
+      return this;
+    } else {
+      var first = this.first();
+      if (first) {
+        return first.textContent;
+      } else {
+        return null;
+      }
+    }
+  };
+
+  Coral.prototype.first = function () {
+    if (this.length === 0) {
+      return null;
+    } else {
+      return this[0];
+    }
+  };
+
+  Coral.prototype.last = function () {
+    if (this.length === 0) {
+      return null;
+    } else {
+      return this[this.length - 1];
+    }
   };
 
   Coral.prototype.addClass = function (className) {

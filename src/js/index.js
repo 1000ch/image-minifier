@@ -3,7 +3,6 @@
 var fs = node('fs');
 var async = node('async');
 var filesize = node('filesize');
-var uuid = node('uuid');
 var IMGO = node('imgo');
 
 var itemMap = {};
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     _.each(files, function (file) {
       itemMap[file.path] = {
-        id: uuid.v1(),
+        id: itemId(),
         name: file.name,
         path: file.path,
         beforeSize: file.size,
@@ -71,23 +70,28 @@ document.addEventListener('DOMContentLoaded', function () {
         item.afterSize = result.afterSize;
 
         // update row
-        {
-          var tr = document.getElementById(item.id);
-          tr.querySelector('.js-after-size').textContent = item.afterSize;
-          tr.querySelector('.js-saving-percent').textContent = ((item.beforeSize - item.afterSize) / item.beforeSize) * 100;
-          var icon = tr.querySelector('.fa');
-          icon.classList.remove('fa-spinner');
-          icon.classList.remove('fa-spin');
-          if (item.beforeSize === item.afterSize) {
-            icon.classList.add('fa-times-circle');
-          } else {
-            icon.classList.add('fa-check');
-          }
+        var $tr = $(document.getElementById(item.id));
+        $tr.find('.js-after-size').text(item.afterSize);
+        $tr.find('.js-saving-percent').text(((item.beforeSize - item.afterSize) / item.beforeSize) * 100);
+
+        var $icon = $tr.find('.fa');
+        $icon.removeClass('fa-spinner');
+        $icon.removeClass('fa-spin');
+
+        if (item.beforeSize === item.afterSize) {
+          $icon.addClass('fa-times-circle');
+        } else {
+          $icon.addClass('fa-check');
         }
       });
     });
   });
 });
+
+var uniqueSelectorCount = 0;
+function itemId() {
+  return 'imgo' + uniqueSelectorCount++;
+}
 
 function minify(files, callback) {
   var array = [];
