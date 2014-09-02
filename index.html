@@ -199,15 +199,14 @@
     <template id="tmpl-result">
       <tr id="{{ id }}">
         <td>{{ name }}</td>
-        <td class="js-before-size">{{ beforeSize }}</td>
-        <td class="js-after-size">{{ afterSize }}</td>
-        <td class="js-saving-percent">{{ savingPercent }}</td>
+        <td class="js-before-size">{{ before }}</td>
+        <td class="js-after-size">{{ after }}</td>
+        <td class="js-saving-percent">{{ percent }}</td>
         <td><i class="fa fa-spinner fa-spin"></i></td>
       </tr>
     </template>
 
     <script src="build/js/lib.min.js"></script>
-    <script>window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');</script>
     <script src="build/js/app.min.js"></script>
   </body>
 </html>

@@ -15,13 +15,18 @@ module.exports = function (grunt) {
       jslib: {
         src: [
           'bower_components/jquery/dist/jquery.js',
+          'src/js/lib/jquery-suffix.js',
           'bower_components/underscore/underscore.js',
           'bower_components/mustache/mustache.js'
         ],
         dest: 'build/js/lib.js'
       },
       jsapp: {
-        src: ['src/js/index.js'],
+        src: [
+          'src/js/lib/generate-id.js',
+          'src/js/lib/minify-image.js',
+          'src/js/index.js'
+        ],
         dest: 'build/js/app.js'
       }
     },
