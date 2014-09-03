@@ -21,7 +21,7 @@ app.on('will-finish-launching', function () {
 app.on('finish-launching', function () {
   win = new BrowserWindow({
     width: 800,
-    height: 800
+    height: 460
   });
   win.loadUrl('file://' + __dirname + '/index.html');
 
