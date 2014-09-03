@@ -36,7 +36,7 @@
   ImageFileList.prototype.clear = function () {
     var that = this;
     Object.keys(this.list).forEach(function (key) {
-      delete that.map[key];
+      delete that.list[key];
     });
   };
 

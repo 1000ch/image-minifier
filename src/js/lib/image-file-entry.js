@@ -11,7 +11,7 @@
 
   Object.defineProperty(ImageFileEntry.prototype, 'fileName', {
     get: function () {
-      return filesize(this.file.name);
+      return this.file.name;
     }
   });
 
