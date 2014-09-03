@@ -24,6 +24,8 @@ module.exports = function (grunt) {
       jsapp: {
         src: [
           'src/js/lib/generate-id.js',
+          'src/js/lib/image-file-entry.js',
+          'src/js/lib/image-file-list.js',
           'src/js/lib/minify-image.js',
           'src/js/index.js'
         ],
@@ -84,6 +86,10 @@ module.exports = function (grunt) {
       cssapp: {
         files: ['src/css/*.css'],
         tasks: ['build:css:app']
+      },
+      jslib: {
+        files: ['src/js/lib/*.js'],
+        tasks: ['build:js:lib']
       },
       jsapp: {
         files: ['src/js/*.js'],

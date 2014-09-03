@@ -3,8 +3,7 @@
 
 'use strict';
 
-var filesize = node('filesize');
-var itemMap = {};  
+var imageFileList = new ImageFileList();
 
 $(function () {
 
@@ -37,60 +36,80 @@ $(function () {
     e.preventDefault();
 
     // get dropping files
-    var files = e.originalEvent.dataTransfer.files || [];
+    var promises = [];
 
-    _.each(files, function (file) {
-      itemMap[file.path] = {
-        id: generateId(),
-        name: file.name,
-        path: file.path,
-        beforeSize: file.size,
-        afterSize: 0,
-        before: filesize(file.size),
-        after: '',
-        type: file.type
-      };
-    });
-
-    var html = '';
-    _.each(itemMap, function (item) {
-      html += Mustache.render($resultItemTemplate.html(), item);
-    });
-    $resultList.html(html);
-    
-    minifyImage(files, function (error, results) {
-
-      if (error) {
-        throw error;
+    _.each(e.originalEvent.dataTransfer.items || [], function (item) {
+      var entry = item.webkitGetAsEntry();
+      if (entry.isFile) {
+        promises.push(new Promise(function (resolve, reject) {
+          entry.file(function (file) {
+            resolve(file);
+          });
+        }));
+      } else if (entry.isDirectory) {
+        entry.createReader().readEntries(function (fileEntries) {
+          _.each(fileEntries, function (fileEntry) {
+            promises.push(new Promise(function (resolve, reject) {
+              fileEntry.file(function (file) {
+                resolve(file);
+              });
+            }));
+          });
+        });
       }
-      
-      _.each(results, function (result) {
-        var item = itemMap[result.path];
-        
-        // set optimized file size
-        item.afterSize = result.afterSize;
+    });
 
-        // update row
-        var $tr = $('#' + item.id);
-        var afterFileSize = filesize(item.afterSize);
-        var savingPercent = (item.beforeSize - item.afterSize) / item.beforeSize;
-        savingPercent = Math.floor(100 * savingPercent) / 100;
-        savingPercent = savingPercent || 0.0;
-        $tr.find('.js-after-size').text(afterFileSize);
-        $tr.find('.js-saving-percent').text(savingPercent);
+    Promise.all(promises).then(function (files) {
 
-        var $icon = $tr.find('.fa');
-        $icon.removeClass('fa-spinner');
-        $icon.removeClass('fa-spin');
-
-        if (item.beforeSize === item.afterSize) {
-          $icon.addClass('fa-times-circle');
-        } else {
-          $icon.addClass('fa-check');
-        }
+      // when complete to fetch files and directories data
+      _.each(files, function (file) {
+        imageFileList.add(file.path, file);
       });
 
-      itemMap = {};
+      // render html
+      var html = '';
+      imageFileList.each(function (item) {
+        html += Mustache.render($resultItemTemplate.html(), {
+          id: item.id,
+          fileName: item.fileName,
+          beforeSizeText: item.beforeSizeText,
+          afterSizeText: '',
+          savingPercent: ''
+        });
+      });
+      $resultList.html(html);
+
+      // minify images
+      minifyImage(imageFileList.getAllFiles(), function (error, results) {
+
+        if (error) {
+          throw error;
+        }
+
+        _.each(results, function (result) {
+          var item = imageFileList.get(result.path);
+
+          // set optimized file size
+          item.afterSize = result.afterSize;
+
+          // update row
+          var $tr = $('#' + item.id);
+          $tr.find('.js-after-size').text(item.afterSizeText);
+          $tr.find('.js-saving-percent').text(item.savingPercent);
+
+          var $icon = $tr.find('.fa');
+          $icon.removeClass('fa-spinner');
+          $icon.removeClass('fa-spin');
+
+          if (item.beforeSize === item.afterSize) {
+            $icon.addClass('fa-times-circle');
+          } else {
+            $icon.addClass('fa-check');
+          }
+        });
+
+        imageFileList.clear();
+      });
     });
   });
 });
