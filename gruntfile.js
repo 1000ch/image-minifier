@@ -24,6 +24,8 @@ module.exports = function (grunt) {
       jsapp: {
         src: [
           'src/js/lib/generate-id.js',
+          'src/js/lib/path-resolver.js',
+          'src/js/lib/data-transfer-item-resolver.js',
           'src/js/lib/image-file-entry.js',
           'src/js/lib/image-file-list.js',
           'src/js/lib/minify-image.js',

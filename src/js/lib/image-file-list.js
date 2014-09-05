@@ -15,17 +15,17 @@
     return this.list[key];
   };
 
-  ImageFileList.prototype.getAllFiles = function () {
-    var files = [];
+  ImageFileList.prototype.getFilePaths = function () {
+    var paths = [];
     this.each(function (item) {
-      files.push(item.file);
+      paths.push(item.filePath);
     });
-    return files;
+    return paths;
   };
 
   ImageFileList.prototype.add = function (key, file) {
     if (ACCEPT_FILE_TYPE.indexOf(file.type) !== -1) {
-      this.list[key] = new ImageFileEntry(file);
+      this.list[key] = new ImageFileEntry(file.path, file.name, file.size);
     }
   };
 

@@ -2,18 +2,13 @@
 
   var filesize = node('filesize');
 
-  function ImageFileEntry(file) {
+  function ImageFileEntry(filePath, fileName, beforeSize) {
     this.id = generateId();
-    this.file = file;
-    this.beforeSize = this.file.size;
+    this.filePath = filePath;
+    this.fileName = fileName;
+    this.beforeSize = beforeSize;
     this.afterSize = 0;
   }
-
-  Object.defineProperty(ImageFileEntry.prototype, 'fileName', {
-    get: function () {
-      return this.file.name;
-    }
-  });
 
   Object.defineProperty(ImageFileEntry.prototype, 'beforeSizeText', {
     get: function () {

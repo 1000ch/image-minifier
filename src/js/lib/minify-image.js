@@ -4,19 +4,19 @@
   var async = node('async');
   var IMGO = node('imgo');
   
-  function minifyImage(files, callback) {
+  function minifyImage(filePaths, callback) {
     var array = [];
-    async.each(files, function (file, next) {
-      fs.readFile(file.path, function (error, buffer) {
+    async.each(filePaths, function (filePath, next) {
+      fs.readFile(filePath, function (error, buffer) {
         if (error) {
           return next(error);
         }
-        new IMGO(file.path).optimize(function (e, data) {
+        new IMGO(filePath).optimize(function (e, data) {
           if (e) {
             next(e);
           }
           array.push({
-            path: file.path,
+            path: filePath,
             beforeSize: data.beforeSize,
             afterSize: data.afterSize
           });
