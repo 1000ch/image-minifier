@@ -11,139 +11,59 @@
   </head>
   <body>
     <div id="js-drop-area" class="l-container">
-      <div class="l-results">
-        <table class="results">
-          <thead>
-            <tr>
-              <th class="results__file">File</th>
-              <th class="results__before">Before<span class="unit">KB</span></th>
-              <th class="results__after">After<span class="unit">KB</span></th>
-              <th class="results__saving">Saving<span class="unit">%</span></th>
-              <th class="results__status">Status</th>
-            </tr>
-          </thead>
-          <tbody id="js-result-list">
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-times-circle"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-times-circle"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-times-circle"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-times-circle"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-check"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-times-circle"></i></td>
-            </tr>
-            <tr>
-              <td class="results__file">hogehogehogehogehogehogehogehogehoge.png</td>
-              <td class="results__before">10.5</td>
-              <td class="results__after">7.0</td>
-              <td class="results__saving">30</td>
-              <td class="results__status"><i class="results__icon fa fa-spinner fa-spin"></i></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="l-result">
+        <div class="result">
+          <table class="result__table">
+            <thead>
+              <tr>
+                <th class="result__status"></th>
+                <th class="result__file">File</th>
+                <th class="result__before">Before</th>
+                <th class="result__after">After</th>
+                <th class="result__saving">Saved</th>
+              </tr>
+            </thead>
+            <tbody id="js-result-list">
+              <tr>
+                <td class="result__status"><i class="result__icon fa fa-check"></i></td>
+                <td class="result__file">hoge.png</td>
+                <td class="result__before">1,500</td>
+                <td class="result__after">700</td>
+                <td class="result__saving">30<span class="unit">%</span></td>
+              </tr>
+              <tr>
+                <td class="result__status"><i class="result__icon fa fa-check"></i></td>
+                <td class="result__file">hoge.png</td>
+                <td class="result__before">1,500</td>
+                <td class="result__after">700</td>
+                <td class="result__saving">30<span class="unit">%</span></td>
+              </tr>
+              <tr>
+                <td class="result__status"><i class="result__icon fa fa-times-circle"></i></td>
+                <td class="result__file">hoge.png</td>
+                <td class="result__before">1,500</td>
+                <td class="result__after">700</td>
+                <td class="result__saving">30<span class="unit">%</span></td>
+              </tr>
+              <tr>
+                <td class="result__status"><i class="result__icon fa fa-spinner fa-spin"></i></td>
+                <td class="result__file">hogehogehogehogehogehogehogehogehogehogehogehogehogehogehogehogehogehoge.png</td>
+                <td class="result__before">1,500</td>
+                <td class="result__after">700</td>
+                <td class="result__saving">30<span class="unit">%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="l-description">
         <div class="description">
-          <div class="description__texts">
-            <p class="description__text">Drag and drop<br>
-            PNG, JPG, GIF, SVG here</p>
-            <p class="description__text">or</p>
+          <div class="description__contents">
+            <div class="description__texts">
+              <p class="description__text">Drag and drop<br>
+              PNG, JPG, GIF, SVG here</p>
+              <p class="description__text">or</p>
+            </div>
             <button id="js-description__button" class="description__button">Select images</button>
           </div>
         </div>
@@ -152,17 +72,17 @@
 
     <div class="l-toolbar">
       <div class="toolbar">
-        <div class="toolbar__cell status"><i class="fa fa-spinner fa-spin status__icon"></i>Now optimizing...</div>
+        <div class="toolbar__cell status"><i class="status__icon fa fa-spinner fa-spin"></i>Now optimizing...</div>
       </div>
     </div>
 
     <template id="tmpl-result">
       <tr id="{{ id }}">
-        <td class="results__file">{{ fileName }}</td>
-        <td class="results__before js-before-size">{{ beforeSizeText }}</td>
-        <td class="results__after js-after-size">{{ afterSizeText }}</td>
-        <td class="results__saving js-saving-percent">{{ savingPercent }}</td>
-        <td class="results__status"><i class="fa fa-spinner fa-spin"></i></td>
+        <td class="result__status"><i class="result__icon fa fa-spinner fa-spin"></i></td>
+        <td class="result__file">{{ fileName }}</td>
+        <td class="result__before js-before-size">{{ beforeSizeText }}</td>
+        <td class="result__after js-after-size">{{ afterSizeText }}</td>
+        <td class="result__saving js-saving-percent">{{ savingPercent }}</td>
       </tr>
     </template>
 

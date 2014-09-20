@@ -88,20 +88,17 @@ $(function () {
     ipc.sendSync('openFileDialog');
   });
 
+  var $body = $(document.body);
   var $dropArea = $('#js-drop-area');
-  var $dashedBorder = $('.dashed-border');
-  var $dashedBorderText = $('.dashed-border__text');
   var $resultList = $('#js-result-list');
   var $resultItemTemplate = $('#tmpl-result');
 
   $dropArea.on('dragenter', function (e) {
-    $dashedBorder.addClass('on-dragmove');
-    $dashedBorderText.addClass('on-dragmove');
+    $body.addClass('on-dragmove');
   });
 
   $dropArea.on('dragleave', function (e) {
-    $dashedBorder.removeClass('on-dragmove');
-    $dashedBorderText.removeClass('on-dragmove');
+    $body.removeClass('on-dragmove');
   });
 
   $dropArea.on('dragover', function (e) {
