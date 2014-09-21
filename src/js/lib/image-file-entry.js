@@ -12,13 +12,13 @@
 
   Object.defineProperty(ImageFileEntry.prototype, 'beforeSizeText', {
     get: function () {
-      return filesize(this.beforeSize);
+      return String(this.beforeSize).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
     }
   });
 
   Object.defineProperty(ImageFileEntry.prototype, 'afterSizeText', {
     get: function () {
-      return filesize(this.afterSize);
+      return String(this.afterSize).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
     }
   });
 
@@ -26,7 +26,7 @@
     get: function () {
       var diff = this.beforeSize - this.afterSize;
       var percent = diff / this.beforeSize;
-      return (Math.floor(10 * percent) / 10) || 0.0;
+      return ((Math.floor(10 * percent) * 100 / 10) || 0.0) + '<span class="unit">%</span>';
     }
   });
 

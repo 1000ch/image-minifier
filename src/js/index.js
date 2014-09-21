@@ -108,6 +108,7 @@ $(function () {
   });
 
   $dropArea.on('drop', function (e) {
+    $body.removeClass('on-dragmove');
 
     // stop propagation for browser redirecting
     e.stopPropagation();
@@ -156,7 +157,7 @@ $(function () {
           // update row
           var $tr = $('#' + item.id);
           $tr.find('.js-after-size').text(item.afterSizeText);
-          $tr.find('.js-saving-percent').text(item.savingPercent);
+          $tr.find('.js-saving-percent').html(item.savingPercent);
 
           var $icon = $tr.find('.fa');
           $icon.removeClass('fa-spinner');

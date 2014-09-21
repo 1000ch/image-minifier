@@ -115,7 +115,7 @@ body {
 .result__before,
 .result__after,
 .result__saving {
-  width: 40px;
+  width: 50px;
   text-align: right;
 }
 .result__status {
