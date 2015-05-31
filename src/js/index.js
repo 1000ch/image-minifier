@@ -1,31 +1,38 @@
 'use strict';
 
+import ImageFileList        from './image-file-list';
+import TransferItemResolver from './transfer-item-resolver';
+import minify               from './minify.js'
+
 // node
-var fs = node('fs');
-var path = node('path');
-var mime = node('mime');
+const fs   = node('fs');
+const path = node('path');
+const mime = node('mime');
 
-// atom-shell
-var ipc = require('ipc');
-
-var imageFileList = new ImageFileList();
+let imageFileList = new ImageFileList();
 
 $(function () {
 
   ipc.on('asynchronous-reply', function (args) {
-    _.each(args, function (arg) {
-      var stat = fs.statSync(arg);
+
+    for (let arg of args) {
+
+      let stat = fs.statSync(arg);
+
       if (stat.isFile()) {
+
         imageFileList.add(path.resolve(arg), {
           type: mime.lookup(arg),
           path: path.resolve(arg),
           name: path.basename(arg),
           size: stat.size
         });
+
       } else if (stat.isDirectory()) {
-        _.each(fs.readdirSync(arg), function (p) {
-          var filepath = path.join(arg, p);
-          var stat = fs.statSync(filepath);
+
+        for (let p of fs.readdirSync(arg)) {
+          let filepath = path.join(arg, p);
+          let stat = fs.statSync(filepath);
           if (stat.isFile()) {
             imageFileList.add(path.resolve(filepath), {
               type: mime.lookup(filepath),
@@ -34,10 +41,10 @@ $(function () {
               size: stat.size
             });
           }
-        });
+        }
 
         // render html
-        var html = '';
+        let html  = '';
         imageFileList.each(function (item) {
           html += Mustache.render($resultItemTemplate.html(), {
             id: item.id,
@@ -50,24 +57,25 @@ $(function () {
         $resultList.html(html);
 
         // minify images
-        minifyImage(imageFileList.getFilePaths(), function (error, results) {
+        minify(imageFileList.getFilePaths(), function (error, results) {
 
           if (error) {
             throw error;
           }
 
-          _.each(results, function (result) {
-            var item = imageFileList.get(result.path);
+          for (let result of results) {
+
+            let item = imageFileList.get(result.path);
 
             // set optimized file size
             item.afterSize = result.afterSize;
 
             // update row
-            var $tr = $('#' + item.id);
+            let $tr = $('#' + item.id);
             $tr.find('.js-after-size').text(item.afterSizeText);
             $tr.find('.js-saving-percent').text(item.savingPercent);
 
-            var $icon = $tr.find('.fa');
+            let $icon = $tr.find('.fa');
             $icon.removeClass('fa-spinner');
             $icon.removeClass('fa-spin');
 
@@ -76,22 +84,23 @@ $(function () {
             } else {
               $icon.addClass('fa-check');
             }
-          });
+          }
 
           imageFileList.clear();
         });
       }
-    });
+    }
   });
-  var $descriptionButton = $('#js-description__button'); 
+
+  let $descriptionButton = $('#js-description__button');
   $descriptionButton.on('click', function () {
     ipc.sendSync('openFileDialog');
   });
 
-  var $body = $(document.body);
-  var $dropArea = $('#js-drop-area');
-  var $resultList = $('#js-result-list');
-  var $resultItemTemplate = $('#tmpl-result');
+  let $body = $(document.body);
+  let $dropArea = $('#js-drop-area');
+  let $resultList = $('#js-result-list');
+  let $resultItemTemplate = $('#tmpl-result');
 
   $dropArea.on('dragenter', function (e) {
     $body.addClass('on-dragmove');
@@ -115,21 +124,21 @@ $(function () {
     e.preventDefault();
 
     var items = e.originalEvent.dataTransfer.items;
-    var itemResolver = new DataTransferItemResolver(items);
+    var itemResolver = new TransferItemResolver(items);
     itemResolver.resolve().then(function (files) {
 
       // when complete to fetch files and directories data
-      _.each(files, function (file) {
+      for (let file of files) {
         imageFileList.add(file.path, {
           type: file.type,
           path: file.path,
           name: file.name,
           size: file.size
         });
-      });
+      }
 
       // render html
-      var html = '';
+      let html = '';
       imageFileList.each(function (item) {
         html += Mustache.render($resultItemTemplate.html(), {
           id: item.id,
@@ -142,24 +151,24 @@ $(function () {
       $resultList.html(html);
 
       // minify images
-      minifyImage(imageFileList.getFilePaths(), function (error, results) {
+      minify(imageFileList.getFilePaths(), function (error, results) {
 
         if (error) {
           throw error;
         }
 
-        _.each(results, function (result) {
-          var item = imageFileList.get(result.path);
+        for (let result of results) {
+          let item = imageFileList.get(result.path);
 
           // set optimized file size
           item.afterSize = result.afterSize;
 
           // update row
-          var $tr = $('#' + item.id);
+          let $tr = $('#' + item.id);
           $tr.find('.js-after-size').text(item.afterSizeText);
           $tr.find('.js-saving-percent').html(item.savingPercent);
 
-          var $icon = $tr.find('.fa');
+          let $icon = $tr.find('.fa');
           $icon.removeClass('fa-spinner');
           $icon.removeClass('fa-spin');
 
@@ -168,7 +177,7 @@ $(function () {
           } else {
             $icon.addClass('fa-check');
           }
-        });
+        }
 
         imageFileList.clear();
       });

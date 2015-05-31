@@ -1,19 +1,15 @@
-(function (global) {
+'use strict';
 
-  /**
-   * Data Transfer Item Resolver
-   * @param {DataTransferItemList} items
-   * @constructor
-   */
-  function DataTransferItemResolver(items) {
-    this.items = items || [];
+export default class {
+
+  constructor(items = []) {
+    this.items = items
   }
-  
-  DataTransferItemResolver.prototype.resolve = function () {
-  
+
+  resolve() {
     var promises = [];
     var forEach = Array.prototype.forEach;
-  
+
     forEach.call(this.items, function (item) {
       var entry = item.webkitGetAsEntry();
       if (entry.isFile) {
@@ -34,10 +30,7 @@
         });
       }
     });
-  
+
     return Promise.all(promises);
-  };
-
-  global.DataTransferItemResolver = DataTransferItemResolver;
-
-})(this);
+  }
+}

@@ -1,10 +1,12 @@
-(function (global) {
+'use strict';
 
-  function PathResolver(paths) {
-    this.paths = paths || [];
+export default class PathResolver {
+
+  constructor(paths = []) {
+    this.paths = paths;
   }
-  
-  PathResolver.prototype.getFileSystem = function () {
+
+  getFileSystem() {
     return new Promise(function (resolve, reject) {
       window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024 * 5, function (fileSystem) {
         resolve(fileSystem);
@@ -12,18 +14,17 @@
         reject(fileError);
       });
     });
-  };
-  
-  PathResolver.prototype.resolve = function () {
-  
+  }
+
+  resolve() {
     var that = this;
     var forEach = Array.prototype.forEach;
     var endsWith = function (value, position) {
       return (this.lastIndexOf(value, position) === (position >= 0 ? position | 0 : this.length - 1));
     };
-  
+
     return new Promise(function (resolve, reject) {
-  
+
       that.getFileSystem().then(function (fileSystem) {
         var promises = [];
         forEach.call(that.paths, function (path) {
@@ -50,15 +51,11 @@
             });
           }
         });
-  
+
         Promise.all(promises).then(function (files) {
           resolve(files);
         });
       });
-  
     });
-  };
-
-  global.PathResolver = PathResolver;
-
-})(this);
+  }
+}
