@@ -1,11 +1,11 @@
 'use strict';
 
-var fs = node('fs');
-var async = node('async');
-var IMGO = node('imgo');
+const fs = node('fs');
+const async = node('async');
+const IMGO = node('imgo');
 
 export default function(filePaths, callback) {
-  var array = [];
+  let array = [];
   async.each(filePaths, function (filePath, next) {
     fs.readFile(filePath, function (error, buffer) {
       if (error) {
