@@ -19,7 +19,7 @@ gulp.task('css:app', function () {
   var csso   = require('gulp-csso');
 
   gulp.src([
-    'src/css/index.css',
+    'src/css/index.css'
   ]).pipe(concat('app.min.css'))
     .pipe(csso())
     .pipe(gulp.dest('build/css/'));
@@ -33,7 +33,6 @@ gulp.task('js:lib', function () {
   gulp.src([
     'bower_components/jquery/dist/jquery.js',
     'src/js/jquery-suffix.js',
-    'bower_components/underscore/underscore.js',
     'bower_components/mustache/mustache.js'
   ]).pipe(concat('lib.min.js'))
     .pipe(uglify())

@@ -7,6 +7,7 @@
   "scripts": {
     "postinstall": "bower install",
     "start": "electron .",
+    "debug": "electron --debug .",
     "build": "gulp build"
   },
   "repository": {

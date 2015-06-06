@@ -1,37 +1,35 @@
 'use strict';
 
-var app = require('app');
+var application   = require('app');
+var remote        = require('remote');
 var BrowserWindow = require('browser-window');
 var crashReporter = require('crash-reporter');
+var dialog        = require('dialog');
+var ipc           = require('ipc');
 
-var dialog = require('dialog');
-var ipc = require('ipc');
-
-var win = null;
-
-app.on('window-all-closed', function () {
+application.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('will-finish-launching', function () {
+application.on('will-finish-launching', function () {
   crashReporter.start({
     productName: 'imgo-app'
   });
 });
 
-app.on('finish-launching', function () {
+application.on('finish-launching', function () {
 
   // initialize browser window
-  win = new BrowserWindow({
+  var browserWindow = new BrowserWindow({
     width: 800,
     height: 460
   });
 
   // handle openFileDialog event
   ipc.on('openFileDialog', function (e, arg) {
-    dialog.showOpenDialog(win, {
+    dialog.showOpenDialog(browserWindow, {
       properties: [
         'openFile',
         'openDirectory',
@@ -47,9 +45,9 @@ app.on('finish-launching', function () {
   });
 
   // open window
-  win.loadUrl('file://' + __dirname + '/index.html');
+  browserWindow.loadUrl('file://' + __dirname + '/index.html');
 
-  win.on('closed', function () {
-    win = null;
+  browserWindow.on('closed', function () {
+    browserWindow = null;
   });
 });
