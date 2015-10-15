@@ -1,30 +1,26 @@
 'use strict';
 
-export default class {
+export default class TransferItemResolver {
 
   constructor(items = []) {
     this.items = items
   }
 
   resolve() {
-    var promises = [];
-    var forEach = Array.prototype.forEach;
+    let promises = [];
+    const forEach = Array.prototype.forEach;
 
-    forEach.call(this.items, function (item) {
-      var entry = item.webkitGetAsEntry();
+    forEach.call(this.items, item => {
+      let entry = item.webkitGetAsEntry();
       if (entry.isFile) {
-        promises.push(new Promise(function (resolve, reject) {
-          entry.file(function (file) {
-            resolve(file);
-          });
+        promises.push(new Promise((resolve, reject) => {
+          entry.file(file => resolve(file));
         }));
       } else if (entry.isDirectory) {
-        entry.createReader().readEntries(function (fileEntries) {
-          forEach.call(fileEntries, function (fileEntry) {
-            promises.push(new Promise(function (resolve, reject) {
-              fileEntry.file(function (file) {
-                resolve(file);
-              });
+        entry.createReader().readEntries(fileEntries => {
+          forEach.call(fileEntries, fileEntry => {
+            promises.push(new Promise((resolve, reject) => {
+              fileEntry.file(file => resolve(file));
             }));
           });
         });

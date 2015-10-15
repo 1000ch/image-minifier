@@ -1,6 +1,7 @@
 'use strict';
 
 import ImageFileEntry from './image-file-entry';
+const EventEmitter = require('events').EventEmitter;
 
 const ACCEPT_FILE_TYPE = [
   'image/jpeg',
@@ -9,14 +10,15 @@ const ACCEPT_FILE_TYPE = [
   'image/svg+xml'
 ];
 
-export default class {
+export default class ImageFileList extends EventEmitter {
 
   constructor() {
-    this.list = {};
+    super();
+    this.map = new Map();
   }
 
   get(key) {
-    return this.list[key];
+    return this.map.get(key);
   }
 
   getFilePaths() {
@@ -29,23 +31,21 @@ export default class {
 
   add(key, file) {
     if (ACCEPT_FILE_TYPE.indexOf(file.type) !== -1) {
-      this.list[key] = new ImageFileEntry(file.path, file.name, file.size);
+      this.map.set(key, new ImageFileEntry(file.path, file.name, file.size));
+      this.emit('add');
     }
   }
 
   remove(key) {
-    delete this.list[key];
+    this.map.delete(key);
+    this.emit('remove');
   }
 
   clear() {
-    Object.keys(this.list).forEach((key) => {
-      delete this.list[key];
-    });
+    this.map.clear();
   }
 
   each(callback = function() {}) {
-    Object.keys(this.list).forEach((key) => {
-      callback(this.list[key]);
-    });
+    this.map.forEach((value, key) => callback(value));
   }
 }

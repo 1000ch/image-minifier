@@ -21,8 +21,8 @@ export default class ImageFileEntry {
   }
 
   get savingPercent() {
-    var diff = this.beforeSize - this.afterSize;
-    var percent = diff / this.beforeSize;
-    return ((Math.floor(10 * percent) * 100 / 10) || 0.0) + '<span class="unit">%</span>';
+    let diff = this.beforeSize - this.afterSize;
+    let percent = diff / this.beforeSize;
+    return `${(Math.floor(10 * percent) * 100 / 10) || 0.0}%`;
   }
 }
