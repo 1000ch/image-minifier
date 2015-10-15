@@ -1,53 +1,47 @@
 'use strict';
 
-var application   = require('app');
-var remote        = require('remote');
-var BrowserWindow = require('browser-window');
-var crashReporter = require('crash-reporter');
-var dialog        = require('dialog');
-var ipc           = require('ipc');
+const app   = require('app');
+const BrowserWindow = require('browser-window');
+const dialog = require('dialog');
+const ipc = require('ipc');
 
-application.on('window-all-closed', function () {
+require('crash-reporter').start();
+
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-application.on('will-finish-launching', function () {
-  crashReporter.start({
-    productName: 'imgo-app'
-  });
-});
-
-application.on('finish-launching', function () {
+app.on('finish-launching', function () {
 
   // initialize browser window
-  var browserWindow = new BrowserWindow({
+  let browserWindow = new BrowserWindow({
     width: 800,
-    height: 460
+    height: 480
   });
 
   // handle openFileDialog event
-  ipc.on('openFileDialog', function (e, arg) {
-    dialog.showOpenDialog(browserWindow, {
-      properties: [
-        'openFile',
-        'openDirectory',
-        'multiSelections'
-      ],
-      filters: [{
-        name: 'Images',
-        extensions: ['jpg', 'png', 'gif', 'svg']
-      }]
-    }, function (arg) {
-      e.sender.send('asynchronous-reply', arg);
-    });
+  ipc.on('asynchronous-message', (e, arg) => {
+    if (arg === 'open-file-dialog') {
+      dialog.showOpenDialog(browserWindow, {
+        properties: [
+          'openFile',
+          'openDirectory',
+          'multiSelections'
+        ],
+        filters: [{
+          name: 'Images',
+          extensions: ['jpg', 'png', 'gif', 'svg']
+        }]
+      }, args => {
+        e.sender.send('asynchronous-reply', args);
+      });
+    }
   });
 
   // open window
   browserWindow.loadUrl('file://' + __dirname + '/index.html');
 
-  browserWindow.on('closed', function () {
-    browserWindow = null;
-  });
+  browserWindow.on('closed', () => browserWindow = null);
 });
