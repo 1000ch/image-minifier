@@ -3,13 +3,10 @@ var gulp = require('gulp');
 gulp.task('css:lib', function () {
 
   var concat = require('gulp-concat');
-  var csso   = require('gulp-csso');
 
-  gulp.src([
-    'bower_components/normalize.css/normalize.css',
-    'bower_components/font-awesome/css/font-awesome.css'
+  return gulp.src([
+    'node_modules/photon/dist/css/photon.min.css'
   ]).pipe(concat('lib.min.css'))
-    .pipe(csso())
     .pipe(gulp.dest('build/css/'));
 });
 
@@ -18,9 +15,8 @@ gulp.task('css:app', function () {
   var concat = require('gulp-concat');
   var csso   = require('gulp-csso');
 
-  gulp.src([
-    'src/css/index.css'
-  ]).pipe(concat('app.min.css'))
+  return gulp.src([])
+    .pipe(concat('app.min.css'))
     .pipe(csso())
     .pipe(gulp.dest('build/css/'));
 });
@@ -30,11 +26,7 @@ gulp.task('js:lib', function () {
   var concat = require('gulp-concat');
   var uglify = require('gulp-uglify');
 
-  gulp.src([
-    'bower_components/jquery/dist/jquery.js',
-    'src/js/jquery-suffix.js',
-    'bower_components/mustache/mustache.js'
-  ]).pipe(concat('lib.min.js'))
+  gulp.src([]).pipe(concat('lib.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('build/js'));
 });
@@ -47,7 +39,7 @@ gulp.task('js:app', function () {
   var buffer     = require('vinyl-buffer');
   var uglify     = require("gulp-uglify");
 
-  browserify({
+  return browserify({
     entries: ['src/js/index.js'],
     extensions: ['.js']
   }).transform(babelify)
@@ -60,14 +52,16 @@ gulp.task('js:app', function () {
 
 gulp.task('copy', function () {
 
-  gulp.src([
-    'bower_components/loading/*.svg'
-  ]).pipe(gulp.dest('build/img/loading'));
-
-  gulp.src([
-    'bower_components/font-awesome/fonts/*'
+  return gulp.src([
+    'node_modules/photon/dist/fonts/*'
   ]).pipe(gulp.dest('build/fonts'));
 
+});
+
+gulp.task('watch', function () {
+  gulp.watch('src/js/*.js', function () {
+    gulp.start('js:app');
+  });
 });
 
 gulp.task('build', function () {
