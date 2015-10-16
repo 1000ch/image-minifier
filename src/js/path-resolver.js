@@ -1,6 +1,6 @@
 'use strict';
 
-export default class PathResolver {
+class PathResolver {
 
   constructor(paths = []) {
     this.paths = paths;
@@ -53,3 +53,5 @@ export default class PathResolver {
     });
   }
 }
+
+module.exports = PathResolver;

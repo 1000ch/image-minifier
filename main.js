@@ -1,6 +1,6 @@
 'use strict';
 
-const app   = require('app');
+const app = require('app');
 const BrowserWindow = require('browser-window');
 const dialog = require('dialog');
 const ipc = require('ipc');
@@ -17,8 +17,8 @@ app.on('finish-launching', function () {
 
   // initialize browser window
   let browserWindow = new BrowserWindow({
-    width: 800,
-    height: 480
+    width: 960,
+    height: 640
   });
 
   // handle openFileDialog event
@@ -41,7 +41,7 @@ app.on('finish-launching', function () {
   });
 
   // open window
-  browserWindow.loadUrl('file://' + __dirname + '/index.html');
+  browserWindow.loadUrl('file://' + __dirname + '/build/index.html');
 
   browserWindow.on('closed', () => browserWindow = null);
 });

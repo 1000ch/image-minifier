@@ -1,8 +1,8 @@
 'use strict';
 
-import generateId from './generate-id';
+const generateId = require('./generate-id');
 
-export default class ImageFileEntry {
+class ImageFileEntry {
 
   constructor(filePath, fileName, beforeSize) {
     this.id = generateId();
@@ -23,6 +23,8 @@ export default class ImageFileEntry {
   get savingPercent() {
     let diff = this.beforeSize - this.afterSize;
     let percent = diff / this.beforeSize;
-    return `${(Math.floor(10 * percent) * 100 / 10) || 0.0}%`;
+    return `${(Math.round(percent * 1000) / 10) || 0.0}%`;
   }
 }
+
+module.exports = ImageFileEntry;

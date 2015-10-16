@@ -1,69 +1,51 @@
 var gulp = require('gulp');
 
-gulp.task('css:lib', function () {
+gulp.task('css', function () {
 
   var concat = require('gulp-concat');
 
   return gulp.src([
     'node_modules/photon/dist/css/photon.min.css'
-  ]).pipe(concat('lib.min.css'))
-    .pipe(gulp.dest('build/css/'));
+  ]).pipe(concat('app.css'))
+    .pipe(gulp.dest('src/css'))
+    .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('css:app', function () {
+gulp.task('js', function () {
 
-  var concat = require('gulp-concat');
-  var csso   = require('gulp-csso');
+  const babel  = require("gulp-babel");
+  const uglify = require("gulp-uglify");
 
-  return gulp.src([])
-    .pipe(concat('app.min.css'))
-    .pipe(csso())
-    .pipe(gulp.dest('build/css/'));
-});
-
-gulp.task('js:lib', function () {
-
-  var concat = require('gulp-concat');
-  var uglify = require('gulp-uglify');
-
-  gulp.src([]).pipe(concat('lib.min.js'))
-    .pipe(uglify())
+  return gulp.src(['./src/js/*.js'])
+    .pipe(babel())
+    //.pipe(uglify())
     .pipe(gulp.dest('build/js'));
 });
 
-gulp.task('js:app', function () {
+gulp.task('copy:app', function () {
 
-  var browserify = require("browserify");
-  var babelify   = require("babelify");
-  var source     = require('vinyl-source-stream');
-  var buffer     = require('vinyl-buffer');
-  var uglify     = require("gulp-uglify");
+  return gulp.src([
+    'src/index.html',
+    'src/app.js'
+  ]).pipe(gulp.dest('build'));
 
-  return browserify({
-    entries: ['src/js/index.js'],
-    extensions: ['.js']
-  }).transform(babelify)
-    .bundle()
-    .pipe(source('app.min.js'))
-    .pipe(buffer())
-    .pipe(uglify())
-    .pipe(gulp.dest('build/js/'));
 });
 
-gulp.task('copy', function () {
+gulp.task('copy:font', function () {
 
   return gulp.src([
     'node_modules/photon/dist/fonts/*'
-  ]).pipe(gulp.dest('build/fonts'));
+  ]).pipe(gulp.dest('src/fonts'))
+    .pipe(gulp.dest('build/fonts'));
 
 });
 
 gulp.task('watch', function () {
   gulp.watch('src/js/*.js', function () {
-    gulp.start('js:app');
+    gulp.start('js');
   });
 });
 
 gulp.task('build', function () {
-  gulp.start('css:app', 'css:lib', 'js:app', 'js:lib', 'copy');
+  gulp.start('css', 'js', 'copy:app', 'copy:font');
 });

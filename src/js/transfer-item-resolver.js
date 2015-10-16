@@ -1,6 +1,6 @@
 'use strict';
 
-export default class TransferItemResolver {
+class TransferItemResolver {
 
   constructor(items = []) {
     this.items = items
@@ -30,3 +30,5 @@ export default class TransferItemResolver {
     return Promise.all(promises);
   }
 }
+
+module.exports = TransferItemResolver;

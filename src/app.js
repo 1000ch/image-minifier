@@ -1,15 +1,14 @@
 'use strict';
 
-import ImageFileList from './image-file-list';
-import TransferItemResolver from './transfer-item-resolver';
+const ImageFileList = require('./js/image-file-list');
+const TransferItemResolver = require('./js/transfer-item-resolver');
 
-// node
-const fs   = node('fs');
-const path = node('path');
-const mime = node('mime');
-const ipc  = node('ipc');
-const IMGO = node('imgo');
-const Mustache = node('mustache');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime');
+const ipc  = require('ipc');
+const IMGO = require('imgo');
+const Mustache = require('mustache');
 
 let imageFileList = new ImageFileList();
 

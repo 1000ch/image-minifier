@@ -1,6 +1,6 @@
 'use strict';
 
-import ImageFileEntry from './image-file-entry';
+const ImageFileEntry = require('./image-file-entry');
 const EventEmitter = require('events').EventEmitter;
 
 const ACCEPT_FILE_TYPE = [
@@ -10,7 +10,7 @@ const ACCEPT_FILE_TYPE = [
   'image/svg+xml'
 ];
 
-export default class ImageFileList extends EventEmitter {
+class ImageFileList extends EventEmitter {
 
   constructor() {
     super();
@@ -49,3 +49,5 @@ export default class ImageFileList extends EventEmitter {
     this.map.forEach((value, key) => callback(value));
   }
 }
+
+module.exports = ImageFileList;
