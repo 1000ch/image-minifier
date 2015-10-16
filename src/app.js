@@ -14,22 +14,18 @@ let imageFileList = new ImageFileList();
 
 document.addEventListener('DOMContentLoaded', e => {
 
-  document.querySelector('#js-open').addEventListener('click', e => {
-    ipc.send('asynchronous-message', 'open-file-dialog');
-  });
+  const resultTemplate = document.querySelector('#template-result-item');
+  const resultList = document.querySelector('#js-result-list');
+
+  document.querySelector('#js-open').addEventListener('click', e => ipc.send('select-path'));
+  document.querySelector('#js-again').addEventListener('click', e => minifySelectedImages());
 
   let table = document.querySelector('.window-content');
 
-  table.addEventListener('dragenter', function (e) {
-    table.classList.add('on-dragmove');
-  });
-
-  table.addEventListener('dragleave', function (e) {
-    table.classList.remove('on-dragmove');
-  });
+  table.addEventListener('dragenter', e => table.classList.add('on-dragmove'));
+  table.addEventListener('dragleave', e => table.classList.remove('on-dragmove'));
 
   table.addEventListener('dragover', function (e) {
-    // "default" prevents drop
     e.stopPropagation();
     e.preventDefault();
   });
@@ -57,19 +53,14 @@ document.addEventListener('DOMContentLoaded', e => {
       }
 
       renderTable();
-
-      minifyImage(imageFileList.getFilePaths())
-        .then(files => updateTable(files))
-        .catch(error => console.error(error));
+      minifySelectedImages();
     });
   });
 
   function renderTable() {
     let html = '';
-    let result = document.querySelector('#template-result-item');
-    let resultList = document.querySelector('#js-result-list');
-    imageFileList.each(function (item) {
-      html += Mustache.render(result.innerHTML, {
+    imageFileList.each(item => {
+      html += Mustache.render(resultTemplate.innerHTML, {
         id: item.id,
         fileName: item.fileName,
         beforeSizeText: item.beforeSizeText,
@@ -80,28 +71,40 @@ document.addEventListener('DOMContentLoaded', e => {
     resultList.innerHTML = html;
   }
 
-  function updateTable(files) {
-    for (let file of files) {
-      let item = imageFileList.get(file.path);
-      // set optimized file size
-      item.afterSize = file.stat.size;
+  function minifySelectedImages() {
 
-      // update row
-      let tr = document.querySelector('#' + item.id);
-      tr.querySelector('.js-after-size').textContent = item.afterSizeText;
-      tr.querySelector('.js-saving-percent').textContent = item.savingPercent;
+    imageFileList.each(item => {
+
+      let tr = resultList.querySelector('#' + item.id);
       let icon = tr.querySelector('.js-icon');
-      icon.classList.remove('icon-dot-3');
+      icon.classList.remove('icon-check');
+      icon.classList.remove('icon-cancel');
+      icon.classList.add('icon-dot-3');
 
-      if (item.beforeSize > item.afterSize) {
-        icon.classList.add('icon-check');
-      } else {
-        icon.classList.add('icon-cancel');
-      }
-    }
+      minifyImage(item.filePath)
+        .then(files => {
+          let file = files.shift();
+          let item = imageFileList.get(file.path);
+          item.afterSize = file.stat.size;
+
+          let tr = resultList.querySelector('#' + item.id);
+          tr.querySelector('.js-after-size').textContent = item.afterSizeText;
+          tr.querySelector('.js-saving-percent').textContent = item.savingPercent;
+          let icon = tr.querySelector('.js-icon');
+          icon.classList.remove('icon-dot-3');
+
+          if (item.beforeSize > item.afterSize) {
+            icon.classList.add('icon-check');
+          } else {
+            icon.classList.add('icon-cancel');
+          }
+        })
+        .catch(error => console.error(error));
+    });
   }
 
-  ipc.on('asynchronous-reply', args => {
+  function onPathSelected(args) {
+
     for (let arg of args) {
       let stat = fs.statSync(arg);
       if (stat.isFile()) {
@@ -128,9 +131,8 @@ document.addEventListener('DOMContentLoaded', e => {
     }
 
     renderTable();
+    minifySelectedImages();
+  }
 
-    minifyImage(imageFileList.getFilePaths())
-      .then(files => updateTable(files))
-      .catch(error => console.error(error));
-  });
+  ipc.on('path-selected', onPathSelected);
 });
