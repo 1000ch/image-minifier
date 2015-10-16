@@ -10,12 +10,14 @@
     <div class="window">
       <header class="toolbar toolbar-header">
         <div class="toolbar-actions">
-          <div class="btn-group">
-            <button id="js-open" class="btn btn-default">
-              <span class="icon icon-plus icon-text"></span>
-              Open
-            </button>
-          </div>
+          <button id="js-open" class="btn btn-default">
+            <span class="icon icon-plus icon-text"></span>
+            Open
+          </button>
+          <button id="js-again" class="btn btn-default">
+            <span class="icon icon icon-cw icon-text"></span>
+            Again
+          </button>
         </div>
       </header>
       <div class="window-content">
@@ -32,6 +34,9 @@
           <tbody id="js-result-list"></tbody>
         </table>
       </div>
+      <footer class="toolbar toolbar-footer">
+        <h1 class="title">Drag and drop image files onto this app</h1>
+      </footer>
     </div>
 
     <template id="template-result-item">
