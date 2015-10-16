@@ -2,12 +2,12 @@
 
 const ImageFileList = require('./js/image-file-list');
 const TransferItemResolver = require('./js/transfer-item-resolver');
+const minifyImage = require('./js/minify-image');
 
 const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
 const ipc  = require('ipc');
-const IMGO = require('imgo');
 const Mustache = require('mustache');
 
 let imageFileList = new ImageFileList();
@@ -58,15 +58,11 @@ document.addEventListener('DOMContentLoaded', e => {
 
       renderTable();
 
-      minify(imageFileList.getFilePaths())
-        .then(results => updateTable(results))
+      minifyImage(imageFileList.getFilePaths())
+        .then(files => updateTable(files))
         .catch(error => console.error(error));
     });
   });
-
-  function minify(fileList) {
-    return Promise.all(fileList.map(file => new IMGO(file).optimize()));
-  }
 
   function renderTable() {
     let html = '';
@@ -84,11 +80,11 @@ document.addEventListener('DOMContentLoaded', e => {
     resultList.innerHTML = html;
   }
 
-  function updateTable(results) {
-    for (let result of results) {
-      let item = imageFileList.get(result.file);
+  function updateTable(files) {
+    for (let file of files) {
+      let item = imageFileList.get(file.path);
       // set optimized file size
-      item.afterSize = result.after.size;
+      item.afterSize = file.stat.size;
 
       // update row
       let tr = document.querySelector('#' + item.id);
@@ -133,8 +129,8 @@ document.addEventListener('DOMContentLoaded', e => {
 
     renderTable();
 
-    minify(imageFileList.getFilePaths())
-      .then(results => updateTable(results))
+    minifyImage(imageFileList.getFilePaths())
+      .then(files => updateTable(files))
       .catch(error => console.error(error));
   });
 });

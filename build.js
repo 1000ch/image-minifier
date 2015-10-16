@@ -7,12 +7,12 @@ const devDependencies = Object.keys(pkg.devDependencies);
 
 let required = {
   dir: './',
-  name: 'imgo-app',
+  name: 'ImageMinifier',
   version: '0.33.8'
 };
 
 let optional = {
-  'app-bundle-id': 'net.1000ch.imgo-app',
+  'app-bundle-id': 'net.1000ch.ImageMinifier',
   'app-version': pkg.version,
   overwrite: true,
   ignore: [
