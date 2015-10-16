@@ -8,7 +8,7 @@ const devDependencies = Object.keys(pkg.devDependencies);
 let required = {
   dir: './',
   name: 'ImageMinifier',
-  version: '0.33.8'
+  version: '0.34.0'
 };
 
 let optional = {
