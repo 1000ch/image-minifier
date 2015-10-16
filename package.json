@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/1000ch/imgo-app.git"
+    "url": "https://github.com/1000ch/image-minifier.git"
   },
   "author": {
     "name": "1000ch",
@@ -19,9 +19,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1000ch/imgo-app/issues"
+    "url": "https://github.com/1000ch/image-minifier/issues"
   },
-  "homepage": "https://github.com/1000ch/imgo-app",
+  "homepage": "https://github.com/1000ch/image-minifier",
   "devDependencies": {
     "electron-packager": "^5.1.0",
     "electron-prebuilt": "^0.33.8",

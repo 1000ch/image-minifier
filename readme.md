@@ -1,1 +1,3 @@
-# imgo-app
+# image-minifier
+
+![](screenshot.png)
